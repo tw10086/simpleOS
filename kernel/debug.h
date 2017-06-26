@@ -11,6 +11,6 @@ void panic_spin(char* filename,int line,const char* func,const char* condition);
 #else
 	#define ASSERT(CONDITION) \
 		if(CONDITION){}else{ \
-		PANIC(#CONDITION)}
+		PANIC(#CONDITION);}
 #endif
 #endif
