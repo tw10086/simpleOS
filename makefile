@@ -9,7 +9,7 @@ LD=ld
 LIB=-I kernel/ -I lib/kernel/ -I lib/
 OBJS=$(BUILD_DIR)/main.o $(BUILD_DIR)/init.o $(BUILD_DIR)/interrupt.o \
 	$(BUILD_DIR)/kernel.o $(BUILD_DIR)/print.o $(BUILD_DIR)/debug.o \
-	$(BUILD_DIR)/string.o
+	$(BUILD_DIR)/string.o $(BUILD_DIR)/bitmap.o
 ASFLAGS=-f elf32
 CFLAGS=-Wall $(LIB) -c -m32 -fno-builtin -W -Wstrict-prototypes \
 	-Wmissing-prototypes
@@ -36,6 +36,11 @@ $(BUILD_DIR)/debug.o:kernel/debug.c kernel/debug.h lib/kernel/print.h \
 	$(CC) $(CFLAGS) -o $@ $<
 
 $(BUILD_DIR)/string.o:lib/string.c lib/string.h kernel/global.h kernel/debug.h lib/stdint.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(BUILD_DIR)/bitmap.o:$(LIB_DIR)/kernel/bitmap.c $(LIB_DIR)/kernel/bitmap.h $(LIB_DIR)/stdint.h \
+	$(LIB_DIR)/string.h $(LIB_DIR)/kernel/print.h $(KERNEL_DIR)/interrupt.h \
+	$(KERNEL_DIR)/debug.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 $(BUILD_DIR)/kernel.bin:$(OBJS)
